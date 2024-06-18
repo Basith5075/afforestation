@@ -33,6 +33,7 @@ class CampaignServiceImplTest {
 
     @BeforeEach
     void setUp() {
+
         MockitoAnnotations.openMocks(this);
         campaign = new Campaign();
         campaign.setCampaignId(1);
