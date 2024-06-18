@@ -8,10 +8,10 @@
 		<version>3.2.3</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>com.plant</groupId>
+	<groupId>com.campaign</groupId>
 	<artifactId>campaign</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>plant</name>
+	<name>campaign</name>
 	<description>Project: Reforestation Help</description>
 	<properties>
 		<java.version>17</java.version>
@@ -77,6 +77,12 @@
 					</goals>
 				</execution>
 			</executions>
+				<configuration>
+					<excludes>
+						<exclude>com/campaign/entity/Campaign.class</exclude>
+						<exclude>com/campaign/CampaignApplication.class</exclude>
+					</excludes>
+				</configuration>
 		</plugin>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
