@@ -7,8 +7,6 @@ import com.campaign.service.CampaignService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -18,8 +16,10 @@ public class CampaignServiceImpl implements CampaignService {
 
     @Autowired
     private CampaignRepository campaignRepository;
+
     @Override
     public Campaign createCampaign(Campaign campaign) {
+
         return campaignRepository.save(campaign);
     }
 
@@ -38,6 +38,7 @@ public class CampaignServiceImpl implements CampaignService {
 
         Campaign existingCampaign = campaignRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Campaign not found with id: " + id));
+
 
         campaign.forEach((key, value) -> {
             switch (key) {
@@ -59,7 +60,7 @@ public class CampaignServiceImpl implements CampaignService {
             }
         });
 
-        return campaignRepository.save(existingCampaign);
+        return  campaignRepository.save(existingCampaign);
     }
 
     @Override
