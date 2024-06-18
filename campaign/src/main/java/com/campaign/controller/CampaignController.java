@@ -25,8 +25,6 @@ public class CampaignController {
 
     @PostMapping("/create")
     public Campaign createCampaign(@RequestBody Campaign campaign){
-
-
         return campaignService.createCampaign(campaign);
     }
 
