@@ -36,7 +36,7 @@ class CampaignServiceImplTest {
 
         MockitoAnnotations.openMocks(this);
         campaign = new Campaign();
-        campaign.setCampaignId(1);
+        campaign.setId(1);
         campaign.setCampaignName("test campaign");
         campaign.setDescription("description");
         campaign.setPurpose("some purpose");
@@ -44,7 +44,7 @@ class CampaignServiceImplTest {
         campaign.setGoalAmount(66300f);
 
         campaign1 = new Campaign();
-        campaign.setCampaignId(2);
+        campaign.setId(2);
         campaign1.setCampaignName("test1 campaign");
         campaign1.setDescription("description 1");
         campaign1.setPurpose("some purpose 1");

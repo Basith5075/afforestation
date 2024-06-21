@@ -1,7 +1,6 @@
 package com.campaign.controller;
 
 import com.campaign.entity.Campaign;
-import com.campaign.hashicorp.AppService;
 import com.campaign.service.CampaignService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -12,7 +11,7 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping(value = "/campaign")
+@RequestMapping(value = "/v1/campaign")
 public class CampaignController {
 
     @Autowired
