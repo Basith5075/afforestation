@@ -41,15 +41,16 @@ class CampaignControllerTest {
 
     List<Campaign> campaigns;
 
+    private final String url = "/v1/campaign";
+
     @BeforeEach
     void setUp() {
-
 
         MockitoAnnotations.openMocks(this);
 
 
         campaign = new Campaign();
-        campaign.setCampaignId(1);
+        campaign.setId(1);
         campaign.setCampaignName("test campaign");
         campaign.setDescription("description");
         campaign.setPurpose("some purpose");
@@ -57,7 +58,7 @@ class CampaignControllerTest {
         campaign.setGoalAmount(66300f);
 
         campaign1 = new Campaign();
-        campaign1.setCampaignId(2);
+        campaign1.setId(2);
         campaign1.setCampaignName("test1 campaign");
         campaign1.setDescription("description 1");
         campaign1.setPurpose("some purpose 1");
@@ -75,7 +76,7 @@ class CampaignControllerTest {
     void testGetCampaignsFound() throws Exception {
         Mockito.when(campaignService.getCampaigns()).thenReturn(campaigns);
 
-        this.mockMvc.perform(get("/campaign/get")
+        this.mockMvc.perform(get(url+"/get")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isOk());
@@ -85,7 +86,7 @@ class CampaignControllerTest {
     void testGetCampaignsNotFound() throws Exception {
         Mockito.when(campaignService.getCampaigns()).thenThrow(EntityNotFoundException.class);
 
-        this.mockMvc.perform(get("/campaign/get")
+        this.mockMvc.perform(get(url+"/get")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().is4xxClientError());
@@ -103,7 +104,7 @@ class CampaignControllerTest {
 
         Mockito.when(campaignService.createCampaign(campaign)).thenReturn(campaign);
 
-        this.mockMvc.perform(post("/campaign/create")
+        this.mockMvc.perform(post(url+"/create")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(jsonData))
                 .andDo(print())
@@ -128,7 +129,7 @@ class CampaignControllerTest {
 
         when(campaignService.updateCampaignPartially(campaignMap, 1)).thenReturn(campaign);
 
-        MockHttpServletResponse response = this.mockMvc.perform(patch("/campaign/update/1")
+        MockHttpServletResponse response = this.mockMvc.perform(patch(url+"/update/1")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(jsonData))
                 .andDo(print())
@@ -153,7 +154,7 @@ class CampaignControllerTest {
 
         when(campaignService.updateCampaignPartially(campaignMap, 22)).thenThrow(EntityNotFoundException.class);
 
-        MockHttpServletResponse response = this.mockMvc.perform(patch("/campaign/update/22")
+        MockHttpServletResponse response = this.mockMvc.perform(patch(url+"/update/22")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(jsonData))
                 .andDo(print())
@@ -167,7 +168,7 @@ class CampaignControllerTest {
 
         when(campaignService.getCampaignById(2)).thenReturn(campaign1);
 
-        this.mockMvc.perform(get("/campaign/get/2")
+        this.mockMvc.perform(get(url+"/get/2")
                         .contentType(MediaType.APPLICATION_JSON)
                 ).andDo(print())
                 .andExpect(status().isOk());
@@ -178,7 +179,7 @@ class CampaignControllerTest {
 
         when(campaignService.getCampaignById(2)).thenThrow(EntityNotFoundException.class);
 
-        this.mockMvc.perform(get("/campaign/get/2")
+        this.mockMvc.perform(get(url+"/get/2")
                         .contentType(MediaType.APPLICATION_JSON)
                 ).andDo(print())
                 .andExpect(status().is4xxClientError());
@@ -188,7 +189,7 @@ class CampaignControllerTest {
     void testDeleteCampaignFound() throws Exception {
         when(campaignService.deleteCampaignById(1)).thenReturn("deleted the campaign with id : 1 successfully !!");
 
-        String response = this.mockMvc.perform(delete("/campaign/delete/1").contentType(MediaType.APPLICATION_JSON))
+        String response = this.mockMvc.perform(delete(url+"/delete/1").contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk()).andDo(print()).andReturn().getResponse().getContentAsString();
 
         assertEquals("deleted the campaign with id : 1 successfully !!", response);
@@ -199,7 +200,7 @@ class CampaignControllerTest {
     void testDeleteCampaignNotFound() throws Exception {
         when(campaignService.deleteCampaignById(100)).thenThrow(EntityNotFoundException.class);
 
-        this.mockMvc.perform(delete("/campaign/delete/100").contentType(MediaType.APPLICATION_JSON))
+        this.mockMvc.perform(delete(url+"/delete/100").contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().is4xxClientError()).andDo(print());
     }
 
