@@ -12,12 +12,14 @@ target/
 .settings
 .springBeans
 .sts4-cache
+campaign/src/main/resources/log4j2-spring.xml
 
 ### IntelliJ IDEA ###
 **/.idea
 **/*.iws
 **/*.iml
 **/*.ipr
+
 
 ### NetBeans ###
 /nbproject/private/
@@ -28,6 +30,7 @@ target/
 build/
 !**/src/main/**/build/
 !**/src/test/**/build/
+
 
 ### VS Code ###
 .vscode/

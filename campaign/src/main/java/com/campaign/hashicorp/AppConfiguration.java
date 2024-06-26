@@ -1,16 +1,19 @@
 package com.campaign.hashicorp;
 
 import lombok.Getter;
-import lombok.Setter;
-import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.context.annotation.Configuration;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 
-@Setter
 @Getter
-@Configuration
-@ConfigurationProperties("postgre")
+@Component
 public class AppConfiguration {
-    private String username;
-    private String password;
+
+    @Value("${splunk.index}")
+    private String index;
+    @Value("${splunk.source}")
+    private String source;
+    @Value("${splunk.url}")
     private String url;
+    @Value("${splunk.token}")
+    private String token;
 }
