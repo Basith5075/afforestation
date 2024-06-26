@@ -1,0 +1,5 @@
+# postgre sql up command
+docker compose up -d postgres pgadmin
+
+# kafka needs 3 things
+docker compose up -d
