@@ -1,10 +1,12 @@
 package com.campaign.service.impl;
 
 import com.campaign.entity.CampaignTransaction;
+import com.campaign.events.CampaignUpdate;
 import com.campaign.exception.EntityNotFoundException;
 import com.campaign.repository.CampaignTransactionRepository;
 import com.campaign.service.CampaignTransactionService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -15,8 +17,14 @@ public class CampaignTransactionServiceImpl implements CampaignTransactionServic
     @Autowired
     private CampaignTransactionRepository campaignTransactionRepository;
 
+    @Autowired
+    private ApplicationEventPublisher applicationEventPublisher;
+
     @Override
     public CampaignTransaction createCampaignTransaction(CampaignTransaction campaignTransaction) {
+
+        // publishing the event of updating the currentAmount in Campaign class
+        applicationEventPublisher.publishEvent(new CampaignUpdate(campaignTransaction.getCampaign().getId(), campaignTransaction.getAmount()));
 
         return campaignTransactionRepository.save(campaignTransaction);
     }
