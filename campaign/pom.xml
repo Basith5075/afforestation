@@ -8,7 +8,6 @@
 		<version>3.2.3</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-<<<<<<< HEAD
 	<groupId>com.campaign</groupId>
 	<artifactId>campaign</artifactId>
 	<version>1.1</version>
@@ -27,16 +26,6 @@
 		</repository>
 	</repositories>
 
-=======
-	<groupId>com.plant</groupId>
-	<artifactId>campaign</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
-	<name>plant</name>
-	<description>Project: Reforestation Help</description>
-	<properties>
-		<java.version>17</java.version>
-	</properties>
->>>>>>> d8625a8 (Restructured campaign service -1)
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -45,7 +34,6 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
-<<<<<<< HEAD
 			<exclusions>
 				<exclusion>
 					<artifactId>spring-boot-starter-logging</artifactId>
@@ -65,8 +53,7 @@
 			<artifactId>splunk-library-javalogging</artifactId>
 			<version>1.8.0</version>
 			<scope>runtime</scope>
-=======
->>>>>>> d8625a8 (Restructured campaign service -1)
+
 		</dependency>
 
 		<dependency>
@@ -84,7 +71,6 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
-<<<<<<< HEAD
 		<dependency>
 			<groupId>org.springframework.cloud</groupId>
 			<artifactId>spring-cloud-starter-vault-config</artifactId>
@@ -145,13 +131,7 @@
 				</configuration>
 		</plugin>
 			<plugin>
-=======
-	</dependencies>
 
-	<build>
-		<plugins>
-			<plugin>
->>>>>>> d8625a8 (Restructured campaign service -1)
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 				<configuration>
@@ -163,10 +143,7 @@
 					</excludes>
 				</configuration>
 			</plugin>
-<<<<<<< HEAD
 
-=======
->>>>>>> d8625a8 (Restructured campaign service -1)
 		</plugins>
 	</build>
 
