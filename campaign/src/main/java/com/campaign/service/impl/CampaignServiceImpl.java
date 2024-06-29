@@ -1,6 +1,7 @@
 package com.campaign.service.impl;
 
 import com.campaign.entity.Campaign;
+<<<<<<< HEAD
 import com.campaign.events.CampaignUpdate;
 import com.campaign.exception.EntityNotFoundException;
 import com.campaign.repository.CampaignRepository;
@@ -12,6 +13,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Service;
 
+=======
+import com.campaign.exception.EntityNotFoundException;
+import com.campaign.repository.CampaignRepository;
+import com.campaign.service.CampaignService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+>>>>>>> d8625a8 (Restructured campaign service -1)
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -19,6 +30,7 @@ import java.util.Optional;
 @Service
 public class CampaignServiceImpl implements CampaignService {
 
+<<<<<<< HEAD
     Logger logger = LogManager.getLogger(CampaignServiceImpl.class);
 
     @Autowired
@@ -29,10 +41,17 @@ public class CampaignServiceImpl implements CampaignService {
 
         logger.info("CampaignServiceImpl: createCampaign invoked, request object {}", Mapper.mapToJsonString(campaign));
 
+=======
+    @Autowired
+    private CampaignRepository campaignRepository;
+    @Override
+    public Campaign createCampaign(Campaign campaign) {
+>>>>>>> d8625a8 (Restructured campaign service -1)
         return campaignRepository.save(campaign);
     }
 
     @Override
+<<<<<<< HEAD
     public List<Campaign> getCampaigns() throws EntityNotFoundException {
 
         logger.info("CampaignServiceImpl: getCampaigns invoked");
@@ -44,6 +63,15 @@ public class CampaignServiceImpl implements CampaignService {
             logger.error("CampaignServiceImpl: getCampaigns : encountered errors while fecthing data {}", Mapper.mapToJsonString(new EntityNotFoundException("No Campaigns Present !!")));
             throw new EntityNotFoundException("No Campaigns Present !!");
         }
+=======
+    public List<Campaign> getCampaigns() throws EntityNotFoundException{
+       List<Campaign> campaignList = campaignRepository.findAll();
+       if(!campaignList.isEmpty()){
+           return campaignList;
+       }else {
+           throw new EntityNotFoundException("No Campaigns Present !!");
+       }
+>>>>>>> d8625a8 (Restructured campaign service -1)
     }
 
 
@@ -52,7 +80,10 @@ public class CampaignServiceImpl implements CampaignService {
         Campaign existingCampaign = campaignRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Campaign not found with id: " + id));
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> d8625a8 (Restructured campaign service -1)
         campaign.forEach((key, value) -> {
             switch (key) {
                 case "campaignName":
@@ -64,12 +95,19 @@ public class CampaignServiceImpl implements CampaignService {
                 case "purpose":
                     existingCampaign.setPurpose((String) value);
                 case "goalAmount":
+<<<<<<< HEAD
                     existingCampaign.setGoalAmount(((Float) value));
                     break;
                 case "currentAmount":
                     existingCampaign.setCurrentAmount(((Float) value));
                 case "incrementCurrentAmount":
                     existingCampaign.setCurrentAmount(existingCampaign.getCurrentAmount()+((Float) value));
+=======
+                    existingCampaign.setGoalAmount(((Double)value).floatValue());
+                    break;
+                case "currentAmount":
+                    existingCampaign.setCurrentAmount(((Double)value).floatValue());
+>>>>>>> d8625a8 (Restructured campaign service -1)
                     break;
                 // Add cases for other fields as needed...
             }
@@ -80,6 +118,7 @@ public class CampaignServiceImpl implements CampaignService {
 
     @Override
     public Campaign getCampaignById(int id) {
+<<<<<<< HEAD
         logger.info("CampaignServiceImpl: getCampaignById invoked, id : {}", id);
         Optional<Campaign> campaign = campaignRepository.findById(id);
 
@@ -89,11 +128,21 @@ public class CampaignServiceImpl implements CampaignService {
         } else {
             logger.error("CampaignServiceImpl: getCampaignById : encountered errors while fecthing data {}", Mapper.mapToJsonString(new EntityNotFoundException("Campaign not found with id: " + id)));
             throw new EntityNotFoundException("Campaign not found with id: " + id);
+=======
+
+        Optional<Campaign> campaign = campaignRepository.findById(id);
+
+        if (campaign.isPresent()){
+            return campaign.get();
+        }else{
+           throw  new EntityNotFoundException("Campaign not found with id: " + id);
+>>>>>>> d8625a8 (Restructured campaign service -1)
         }
     }
 
     @Override
     public String deleteCampaignById(int id) {
+<<<<<<< HEAD
         logger.info("CampaignServiceImpl: deleteCampaignById invoked, id : {}", id);
         Optional<Campaign> campaign = campaignRepository.findById(id);
 
@@ -115,4 +164,15 @@ public class CampaignServiceImpl implements CampaignService {
         updateCampaignPartially(Map.of("incrementCurrentAmount", campaignUpdate.getAmount()), campaignUpdate.getCampaignId());
     }
 
+=======
+        Optional<Campaign> campaign = campaignRepository.findById(id);
+
+        if (campaign.isPresent()){
+            campaignRepository.deleteById(id);
+            return "deleted the campaign with id : "+id+" successfully !!";
+        }else{
+            throw  new EntityNotFoundException("Campaign not found with id: " + id);
+        }
+    }
+>>>>>>> d8625a8 (Restructured campaign service -1)
 }
