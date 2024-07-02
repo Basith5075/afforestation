@@ -11,6 +11,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
+import org.springframework.context.ApplicationEventPublisher;
 
 import java.time.LocalDate;
 import java.time.ZoneId;
@@ -28,6 +29,9 @@ class CampaignTransactionServiceImplTest {
 
     @Mock
     private CampaignTransactionRepository campaignTransactionRepository;
+
+    @Mock
+    private ApplicationEventPublisher applicationEventPublisher;
 
     @InjectMocks
     private CampaignTransactionServiceImpl campaignTransactionService;
