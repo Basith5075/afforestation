@@ -1,0 +1,34 @@
+spring:
+  application:
+    name: campaign-dev
+  datasource:
+    url: ${postgre.url}
+    username: ${postgre.username}
+    password: ${postgre.password}
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+  cloud:
+    vault:
+      kv:
+        enabled: true
+        backend: kv
+      authentication: TOKEN
+      token: ${TOKEN_VAULT}
+      scheme: http
+      host: 127.0.0.1
+      port: 8200
+  config:
+    import: vault://
+
+server:
+  port: 5004
+  ssl:
+    enabled: true
+    key-store-type: PKCS12
+    key-store: classpath:keystore.p12
+    key-store-password: ${keystore.secret}
+    protocol: TLS
+    enabled-protocols: TLSv1.2
