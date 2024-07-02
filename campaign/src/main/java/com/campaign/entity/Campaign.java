@@ -11,6 +11,7 @@ public class Campaign {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+
     private String campaignName;
 
     private String description;
@@ -20,6 +21,7 @@ public class Campaign {
     private float goalAmount;
 
     private float currentAmount;
+
 //    @OneToMany(mappedBy = "campaign",cascade = CascadeType.ALL,orphanRemoval = true)
 //    private List<CampaignTransaction> transactions;
 }

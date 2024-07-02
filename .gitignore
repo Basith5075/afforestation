@@ -12,10 +12,7 @@ target/
 .settings
 .springBeans
 .sts4-cache
-<<<<<<< HEAD
 campaign/src/main/resources/log4j2-spring.xml
-=======
->>>>>>> d8625a8 (Restructured campaign service -1)
 
 ### IntelliJ IDEA ###
 **/.idea
@@ -23,7 +20,6 @@ campaign/src/main/resources/log4j2-spring.xml
 **/*.iml
 **/*.ipr
 
-<<<<<<< HEAD
 
 ### NetBeans ###
 /nbproject/private/
@@ -40,22 +36,6 @@ build/
 .vscode/
 
 
-=======
-### NetBeans ###
-/nbproject/private/
-/nbbuild/
-/dist/
-/nbdist/
-/.nb-gradle/
-build/
-!**/src/main/**/build/
-!**/src/test/**/build/
-
-### VS Code ###
-.vscode/
-
-
->>>>>>> d8625a8 (Restructured campaign service -1)
 ### Removing unwanted Maven files
 **/.DS_Store
 **/.mvn/

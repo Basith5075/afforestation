@@ -45,7 +45,7 @@ public class PaymentServiceImpl implements PaymentService {
                     existingPayment.setCampaignId((int) value);
                     break;
                 case "amount":
-                    existingPayment.setAmount(Float.valueOf(value.toString()));
+                    existingPayment.setAmount((float) value);
                     break;
                 case "notes":
                     existingPayment.setNotes(value.toString());

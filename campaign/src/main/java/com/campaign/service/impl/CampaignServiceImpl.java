@@ -1,7 +1,6 @@
 package com.campaign.service.impl;
 
 import com.campaign.entity.Campaign;
-
 import com.campaign.events.CampaignUpdate;
 import com.campaign.exception.EntityNotFoundException;
 import com.campaign.repository.CampaignRepository;
@@ -30,7 +29,6 @@ public class CampaignServiceImpl implements CampaignService {
 
         logger.info("CampaignServiceImpl: createCampaign invoked, request object {}", Mapper.mapToJsonString(campaign));
 
-
         return campaignRepository.save(campaign);
     }
 
@@ -46,7 +44,6 @@ public class CampaignServiceImpl implements CampaignService {
             logger.error("CampaignServiceImpl: getCampaigns : encountered errors while fecthing data {}", Mapper.mapToJsonString(new EntityNotFoundException("No Campaigns Present !!")));
             throw new EntityNotFoundException("No Campaigns Present !!");
         }
-
     }
 
 
@@ -54,6 +51,8 @@ public class CampaignServiceImpl implements CampaignService {
 
         Campaign existingCampaign = campaignRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Campaign not found with id: " + id));
+
+
         campaign.forEach((key, value) -> {
             switch (key) {
                 case "campaignName":
@@ -65,13 +64,12 @@ public class CampaignServiceImpl implements CampaignService {
                 case "purpose":
                     existingCampaign.setPurpose((String) value);
                 case "goalAmount":
-                    existingCampaign.setGoalAmount(Float.valueOf(value.toString()));
+                    existingCampaign.setGoalAmount(((Float) value));
                     break;
                 case "currentAmount":
-                    existingCampaign.setCurrentAmount(Float.valueOf(value.toString()));
+                    existingCampaign.setCurrentAmount(((Float) value));
                 case "incrementCurrentAmount":
                     existingCampaign.setCurrentAmount(existingCampaign.getCurrentAmount()+((Float) value));
-
                     break;
                 // Add cases for other fields as needed...
             }
