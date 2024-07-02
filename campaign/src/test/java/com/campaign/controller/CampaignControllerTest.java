@@ -15,6 +15,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockHttpServletResponse;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.ArrayList;
@@ -24,6 +25,7 @@ import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -73,20 +75,22 @@ class CampaignControllerTest {
     }
 
     @Test
+    @WithMockUser(username = "user", roles = {"USER"})
     void testGetCampaignsFound() throws Exception {
         Mockito.when(campaignService.getCampaigns()).thenReturn(campaigns);
 
-        this.mockMvc.perform(get(url+"/get")
+        this.mockMvc.perform(get(url + "/get")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isOk());
     }
 
     @Test
+    @WithMockUser(username = "user", roles = {"USER"})
     void testGetCampaignsNotFound() throws Exception {
         Mockito.when(campaignService.getCampaigns()).thenThrow(EntityNotFoundException.class);
 
-        this.mockMvc.perform(get(url+"/get")
+        this.mockMvc.perform(get(url + "/get")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().is4xxClientError());
@@ -94,6 +98,7 @@ class CampaignControllerTest {
 
 
     @Test
+    @WithMockUser(username = "user", roles = {"USER"})
     void testCreateCampaign() throws Exception {
 
         ObjectMapper mapper = new ObjectMapper();
@@ -104,14 +109,15 @@ class CampaignControllerTest {
 
         Mockito.when(campaignService.createCampaign(campaign)).thenReturn(campaign);
 
-        this.mockMvc.perform(post(url+"/create")
+        this.mockMvc.perform(post(url + "/create")
+                        .with(csrf())
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(jsonData))
                 .andDo(print())
                 .andExpect(status().isOk());
     }
 
-
+    @WithMockUser(username = "user", roles = {"USER"})
     @Test
     void testUpdateCampaignFound() throws Exception {
 
@@ -129,7 +135,8 @@ class CampaignControllerTest {
 
         when(campaignService.updateCampaignPartially(campaignMap, 1)).thenReturn(campaign);
 
-        MockHttpServletResponse response = this.mockMvc.perform(patch(url+"/update/1")
+        MockHttpServletResponse response = this.mockMvc.perform(patch(url + "/update/1")
+                        .with(csrf())
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(jsonData))
                 .andDo(print())
@@ -137,6 +144,7 @@ class CampaignControllerTest {
                 .andReturn().getResponse();
     }
 
+    @WithMockUser(username = "user", roles = {"USER"})
     @Test
     void testUpdateCampaignNotFound() throws Exception {
 
@@ -154,7 +162,7 @@ class CampaignControllerTest {
 
         when(campaignService.updateCampaignPartially(campaignMap, 22)).thenThrow(EntityNotFoundException.class);
 
-        MockHttpServletResponse response = this.mockMvc.perform(patch(url+"/update/22")
+        MockHttpServletResponse response = this.mockMvc.perform(patch(url + "/update/22")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(jsonData))
                 .andDo(print())
@@ -164,32 +172,37 @@ class CampaignControllerTest {
 
 
     @Test
+    @WithMockUser(username = "user", roles = {"USER"})
     void testGetCampaignByIdFound() throws Exception {
 
         when(campaignService.getCampaignById(2)).thenReturn(campaign1);
 
-        this.mockMvc.perform(get(url+"/get/2")
+        this.mockMvc.perform(get(url + "/get/2")
                         .contentType(MediaType.APPLICATION_JSON)
                 ).andDo(print())
                 .andExpect(status().isOk());
     }
 
     @Test
+    @WithMockUser(username = "user", roles = {"USER"})
     void testGetCampaignByIdNotFound() throws Exception {
 
         when(campaignService.getCampaignById(2)).thenThrow(EntityNotFoundException.class);
 
-        this.mockMvc.perform(get(url+"/get/2")
+        this.mockMvc.perform(get(url + "/get/2")
                         .contentType(MediaType.APPLICATION_JSON)
                 ).andDo(print())
                 .andExpect(status().is4xxClientError());
     }
 
     @Test
+    @WithMockUser(username = "user", roles = {"USER"})
     void testDeleteCampaignFound() throws Exception {
         when(campaignService.deleteCampaignById(1)).thenReturn("deleted the campaign with id : 1 successfully !!");
 
-        String response = this.mockMvc.perform(delete(url+"/delete/1").contentType(MediaType.APPLICATION_JSON))
+        String response = this.mockMvc.perform(delete(url + "/delete/1")
+                        .with(csrf())
+                        .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk()).andDo(print()).andReturn().getResponse().getContentAsString();
 
         assertEquals("deleted the campaign with id : 1 successfully !!", response);
@@ -197,10 +210,11 @@ class CampaignControllerTest {
     }
 
     @Test
+    @WithMockUser(username = "user", roles = {"USER"})
     void testDeleteCampaignNotFound() throws Exception {
         when(campaignService.deleteCampaignById(100)).thenThrow(EntityNotFoundException.class);
 
-        this.mockMvc.perform(delete(url+"/delete/100").contentType(MediaType.APPLICATION_JSON))
+        this.mockMvc.perform(delete(url + "/delete/100").contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().is4xxClientError()).andDo(print());
     }
 

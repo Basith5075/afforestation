@@ -24,8 +24,8 @@ spring:
       port: 8200
   config:
     import: vault://
-  main:
-    allow-circular-references: true
+#  main:
+#    allow-circular-references: true
 
 server:
   port: 5002

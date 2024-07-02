@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.time.LocalDate;
@@ -25,6 +26,7 @@ import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.*;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -85,6 +87,7 @@ class CampaignTransactionControllerTest {
     }
 
     @Test
+    @WithMockUser(username = "user", roles = {"USER"})
     void addCampaignTransaction() throws Exception {
 
         ObjectMapper mapper = new ObjectMapper();
@@ -95,11 +98,14 @@ class CampaignTransactionControllerTest {
 
         Mockito.when(campaignTransactionService.createCampaignTransaction(campaignTransaction)).thenReturn(campaignTransaction);
 
-        this.mockMvc.perform(post(url).contentType(MediaType.APPLICATION_JSON).content(jsonData))
+        this.mockMvc.perform(post(url)
+                        .with(csrf())
+                        .contentType(MediaType.APPLICATION_JSON).content(jsonData))
                 .andDo(print()).andExpect(status().isOk());
     }
 
     @Test
+    @WithMockUser(username = "user", roles = {"USER"})
     void getAllCampaignTransactions() throws Exception {
 
         Mockito.when(campaignTransactionService.getAllCampaignTransactions()).thenReturn(campaignTransactionList);
@@ -109,6 +115,7 @@ class CampaignTransactionControllerTest {
     }
 
     @Test
+    @WithMockUser(username = "user", roles = {"USER"})
     void getAllCampaignTransactionsNotFound() throws Exception {
 
         Mockito.when(campaignTransactionService.getAllCampaignTransactions()).thenThrow(EntityNotFoundException.class);
@@ -118,6 +125,7 @@ class CampaignTransactionControllerTest {
     }
 
     @Test
+    @WithMockUser(username = "user", roles = {"USER"})
     void getCampaignTransactionByIdFound() throws Exception {
 
         Mockito.when(campaignTransactionService.getCampaignTransactionById(1)).thenReturn(campaignTransaction);
@@ -127,6 +135,7 @@ class CampaignTransactionControllerTest {
     }
 
     @Test
+    @WithMockUser(username = "user", roles = {"USER"})
     void getCampaignTransactionByIdNotFound() throws Exception {
         Mockito.when(campaignTransactionService.getCampaignTransactionById(100)).thenThrow(EntityNotFoundException.class);
 
@@ -135,6 +144,7 @@ class CampaignTransactionControllerTest {
     }
 
     @Test
+    @WithMockUser(username = "user", roles = {"USER"})
     void updateCampaignTransactionFound() throws Exception {
 
         CampaignTransaction updatedTransactions = new CampaignTransaction();
@@ -151,12 +161,13 @@ class CampaignTransactionControllerTest {
         String jsonData = ow.writeValueAsString(updatedTransactions);
 
         Mockito.when(campaignTransactionService.updateCampaignTransaction(1, updatedTransactions)).thenReturn(campaignTransaction);
-        this.mockMvc.perform(put(url + "?id=1").contentType(MediaType.APPLICATION_JSON).content(jsonData)).andDo(print()).andExpect(status().isOk());
+        this.mockMvc.perform(put(url + "?id=1").with(csrf()).contentType(MediaType.APPLICATION_JSON).content(jsonData)).andDo(print()).andExpect(status().isOk());
 
         verify(campaignTransactionService, times(1)).updateCampaignTransaction(1, updatedTransactions);
     }
 
     @Test
+    @WithMockUser(username = "user", roles = {"USER"})
     void updateCampaignTransactionNotFound() throws Exception {
 
         CampaignTransaction updatedTransactions = new CampaignTransaction();
@@ -172,16 +183,22 @@ class CampaignTransactionControllerTest {
 
         Mockito.when(campaignTransactionService.updateCampaignTransaction(100, updatedTransactions)).thenThrow(EntityNotFoundException.class);
 
-        this.mockMvc.perform(put(url + "?id=100").contentType(MediaType.APPLICATION_JSON).content(jsonData)).andDo(print()).andExpect(status().is4xxClientError());
+        this.mockMvc.perform(put(url + "?id=100")
+                        .with(csrf())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(jsonData)).andDo(print())
+                .andExpect(status()
+                        .is4xxClientError());
         verify(campaignTransactionService, times(1)).updateCampaignTransaction(100, updatedTransactions);
     }
 
     @Test
+    @WithMockUser(username = "user", roles = {"USER"})
     void deleteCampaignTransactionFound() throws Exception {
 
         when(campaignTransactionService.deleteCampaignTransactionById(1)).thenReturn("Transaction deleted successfully");
 
-        String contentAsString = this.mockMvc.perform(delete(url + "/1").contentType(MediaType.APPLICATION_JSON)).andDo(print()).andExpect(status().isOk()).andReturn().getResponse().getContentAsString();
+        String contentAsString = this.mockMvc.perform(delete(url + "/1").with(csrf()).contentType(MediaType.APPLICATION_JSON)).andDo(print()).andExpect(status().isOk()).andReturn().getResponse().getContentAsString();
 
         System.out.println(contentAsString);
 
@@ -189,11 +206,12 @@ class CampaignTransactionControllerTest {
     }
 
     @Test
+    @WithMockUser(username = "user", roles = {"USER"})
     void deleteCampaignTransactionNotFound() throws Exception {
 
         when(campaignTransactionService.deleteCampaignTransactionById(100)).thenThrow(EntityNotFoundException.class);
 
-        this.mockMvc.perform(delete(url + "/100").contentType(MediaType.APPLICATION_JSON))
+        this.mockMvc.perform(delete(url + "/100").with(csrf()).contentType(MediaType.APPLICATION_JSON))
                 .andDo(print()).andExpect(status().is4xxClientError());
 
         verify(campaignTransactionService, times(1)).deleteCampaignTransactionById(100);
