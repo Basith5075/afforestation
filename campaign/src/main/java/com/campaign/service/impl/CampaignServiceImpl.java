@@ -63,11 +63,13 @@ public class CampaignServiceImpl implements CampaignService {
                     break;
                 case "purpose":
                     existingCampaign.setPurpose((String) value);
+                    break;
                 case "goalAmount":
-                    existingCampaign.setGoalAmount(((Float) value));
+                    existingCampaign.setGoalAmount(((Double) value).floatValue());
                     break;
                 case "currentAmount":
-                    existingCampaign.setCurrentAmount(((Float) value));
+                    existingCampaign.setCurrentAmount(((Double) value).floatValue());
+                    break;
                 case "incrementCurrentAmount":
                     existingCampaign.setCurrentAmount(existingCampaign.getCurrentAmount()+((Float) value));
                     break;
