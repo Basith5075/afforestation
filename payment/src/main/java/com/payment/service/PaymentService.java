@@ -1,9 +1,11 @@
 package com.payment.service;
 
+import com.payment.entity.CampaignInfo;
 import com.payment.entity.Payment;
 
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.CompletableFuture;
 
 public interface PaymentService {
 
@@ -16,4 +18,6 @@ public interface PaymentService {
     String deletePayment(int id);
 
     List<Payment> getAllPayments();
+
+    CompletableFuture<CampaignInfo> getCampaignInfo(String email);
 }
