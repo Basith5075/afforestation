@@ -20,7 +20,7 @@ public class PaymentController {
     @Autowired
     private PaymentService paymentService;
 
-    @PostMapping
+    @PostMapping("/create")
     public ResponseEntity<Payment> createPayment(@RequestBody Payment payment) {
 
         return new ResponseEntity<Payment>(paymentService.createPayment(payment), HttpStatus.OK) ;

@@ -1,18 +1,25 @@
 package com.payment.service.impl;
 
+import com.payment.api.CampaignClient;
+import com.payment.entity.CampaignInfo;
 import com.payment.entity.Payment;
 import com.payment.exception.EntityNotFoundException;
 import com.payment.repository.PaymentRepo;
 import com.payment.service.PaymentService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.CompletableFuture;
 
 @Service
 public class PaymentServiceImpl implements PaymentService {
+
+    @Autowired
+    private CampaignClient campaignClient;
 
     @Autowired
     private PaymentRepo paymentRepo;
@@ -84,4 +91,10 @@ public class PaymentServiceImpl implements PaymentService {
         }
         return payments;
     }
+
+    @Async
+    public CompletableFuture<CampaignInfo> getCampaignInfo(String email) {
+        return CompletableFuture.completedFuture(campaignClient.getCampaignInfoByEmail(email));
+    }
+
 }

@@ -55,10 +55,14 @@ public class UserController {
         }
     }
 
-    @GetMapping("/api/hello")
-    public String greetings() {
-
-        return "Hello World";
+    @GetMapping("/getCampaignInfoByEmail")
+    public CampaignInfo getCampaignInfoByEmail(@RequestParam("email") String email) {
+        CampaignInfo campaignInfo = service.getUserByEmail(email);
+        return campaignInfo;
     }
 
+    @GetMapping("/api/hello")
+    public String greetings() {
+        return "Hello World";
+    }
 }

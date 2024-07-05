@@ -1,4 +1,4 @@
-package com.campaign.security;
+package com.payment.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -16,9 +16,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.security.web.util.matcher.RequestMatcher;
-
-import java.util.List;
 
 @Configuration
 @EnableWebSecurity
@@ -34,17 +31,11 @@ public class SecurityConfig {
         return new CampaignInfoService();
     }
 
-
-//    private final List<String> allowedPaths = List.of("/auth/welcome", "/auth/addNewUser", "/auth/generateToken");
-
-    // Configuring HttpSecurity
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http.csrf(csrf -> csrf.disable())
-                .authorizeHttpRequests(auth -> auth.requestMatchers("/auth/welcome", "/auth/addNewUser", "/auth/generateToken","/auth/getCampaignInfoByEmail").permitAll())
+                .authorizeHttpRequests(auth -> auth.requestMatchers( "/auth/generateToken","/v1/payment/create").permitAll())
                 .authorizeHttpRequests(auth -> auth.requestMatchers("/**").authenticated())
-                .requiresChannel(requiresChannel->requiresChannel.requestMatchers("/auth/getCampaignInfoByEmail").requiresInsecure()
-                                                .anyRequest().requiresSecure())
                 .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authenticationProvider(authenticationProvider())
                 .addFilterBefore(authFilter, UsernamePasswordAuthenticationFilter.class)

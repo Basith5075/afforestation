@@ -27,6 +27,7 @@ public class CampaignInfoService implements UserDetailsService {
 
         Optional<CampaignInfo> userDetail = repository.findByEmail(useremail);
 
+
         // Converting userDetail to UserDetails
         return userDetail.map(CampaignInfoDetails::new)
                 .orElseThrow(() -> new UsernameNotFoundException("Email Id not found " + useremail));
@@ -36,6 +37,14 @@ public class CampaignInfoService implements UserDetailsService {
         userInfo.setPassword(encoder.encode(userInfo.getPassword()));
         repository.save(userInfo);
         return "Campaign User Added Successfully";
+    }
+
+
+    public CampaignInfo getUserByEmail(String email) {
+
+        Optional<CampaignInfo> userDetail = repository.findByEmail(email);
+
+        return userDetail.orElseThrow(() -> new UsernameNotFoundException("Email Id not found " + email));
     }
 
 
