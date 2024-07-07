@@ -18,7 +18,7 @@ public class KafkaMessagePublisher {
 
     public void sendPaymentInTopic(String campaignTransactionDtoString){
 
-        CompletableFuture<SendResult<String, Object>> future = kafkaTemplate.send("payments-received", campaignTransactionDtoString);
+        CompletableFuture<SendResult<String, Object>> future = kafkaTemplate.send("payments-received-1", campaignTransactionDtoString);
 
         future.whenComplete((result,ex) ->{
             if(ex == null ){

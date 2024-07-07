@@ -1,5 +1,6 @@
 package com.campaign.entity;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -8,6 +9,7 @@ import java.util.Date;
 @Data
 @Entity
 @Table(name ="campaign_transaction")
+//@JsonInclude(JsonInclude.Include.NON_DEFAULT)
 public class CampaignTransaction {
 
     @Id
