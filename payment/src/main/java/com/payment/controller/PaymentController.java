@@ -1,6 +1,7 @@
 package com.payment.controller;
 
 import com.payment.entity.Payment;
+import com.payment.kafka.KafkaMessagePublisher;
 import com.payment.service.PaymentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -16,6 +17,9 @@ import java.util.logging.Logger;
 public class PaymentController {
 
     Logger logger = Logger.getLogger(PaymentController.class.getName());
+
+    @Autowired
+    private KafkaMessagePublisher kafkaMessagePublisher;
 
     @Autowired
     private PaymentService paymentService;
@@ -48,4 +52,5 @@ public class PaymentController {
         return new ResponseEntity<String>(paymentService.updatePayment(id,paymentMap),HttpStatus.OK) ;
 
     }
+
 }
